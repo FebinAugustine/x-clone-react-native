@@ -1,3 +1,5 @@
+// server.js (updated)
+
 import express from "express";
 import cors from "cors";
 import { clerkMiddleware } from "@clerk/express";
@@ -16,8 +18,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Apply Clerk middleware globally
 app.use(clerkMiddleware());
-app.use(arcjetMiddleware);
+
+// Apply Arcjet middleware to all routes except the sync route
+// This is the key change to solve the 403 error for user sync
+app.use((req, res, next) => {
+  // Check if the request is for the sync endpoint
+  if (req.path === "/api/users/sync" && req.method === "POST") {
+    // If it is, skip the Arcjet middleware
+    return next();
+  }
+  // Otherwise, apply the Arcjet middleware
+  arcjetMiddleware(req, res, next);
+});
 
 app.get("/", (req, res) => res.send("Hello from server"));
 
@@ -38,7 +52,9 @@ const startServer = async () => {
 
     // listen for local development
     if (ENV.NODE_ENV !== "production") {
-      app.listen(ENV.PORT, () => console.log("Server is up and running on PORT:", ENV.PORT));
+      app.listen(ENV.PORT, () =>
+        console.log("Server is up and running on PORT:", ENV.PORT)
+      );
     }
   } catch (error) {
     console.error("Failed to start server:", error.message);
