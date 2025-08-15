@@ -15,11 +15,15 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const ProfileScreens = () => {
   const { currentUser, isLoading } = useCurrentUser();
   const insets = useSafeAreaInsets();
+  console.log("currentUser", currentUser);
 
   const {
     posts: userPosts,
@@ -54,7 +58,9 @@ const ProfileScreens = () => {
           <Text className="text-xl font-bold text-gray-900">
             {currentUser.firstName} {currentUser.lastName}
           </Text>
-          <Text className="text-gray-500 text-sm">{userPosts.length} Posts</Text>
+          <Text className="text-gray-500 text-sm">
+            {userPosts.length} Posts
+          </Text>
         </View>
         <SignOutButton />
       </View>
@@ -123,13 +129,17 @@ const ProfileScreens = () => {
             <View className="flex-row">
               <TouchableOpacity className="mr-6">
                 <Text className="text-gray-900">
-                  <Text className="font-bold">{currentUser.following?.length}</Text>
+                  <Text className="font-bold">
+                    {currentUser.following?.length}
+                  </Text>
                   <Text className="text-gray-500"> Following</Text>
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity>
                 <Text className="text-gray-900">
-                  <Text className="font-bold">{currentUser.followers?.length}</Text>
+                  <Text className="font-bold">
+                    {currentUser.followers?.length}
+                  </Text>
                   <Text className="text-gray-500"> Followers</Text>
                 </Text>
               </TouchableOpacity>

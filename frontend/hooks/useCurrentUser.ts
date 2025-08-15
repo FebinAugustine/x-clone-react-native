@@ -1,7 +1,10 @@
+// hooks/useCurrentUser.ts (Updated)
+
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@clerk/clerk-expo";
 import { useApiClient, userApi } from "../utils/api";
 
-export const useCurrentUser = () => {
+export const useCurrentUser = (isEnabled: boolean) => {
   const api = useApiClient();
 
   const {
@@ -11,8 +14,9 @@ export const useCurrentUser = () => {
     refetch,
   } = useQuery({
     queryKey: ["authUser"],
-    queryFn: () => userApi.getCurrentUser(api),
+    queryFn: async () => userApi.getCurrentUser(api),
     select: (response) => response.data.user,
+    enabled: isEnabled,
   });
 
   return { currentUser, isLoading, error, refetch };

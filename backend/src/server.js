@@ -21,11 +21,13 @@ app.use(express.json());
 // Apply Clerk middleware globally
 app.use(clerkMiddleware());
 
-// Apply Arcjet middleware to all routes except the sync route
-// This is the key change to solve the 403 error for user sync
+// Apply Arcjet middleware conditionally
 app.use((req, res, next) => {
-  // Check if the request is for the sync endpoint
-  if (req.path === "/api/users/sync" && req.method === "POST") {
+  // Check if the request is for either the sync or get current user endpoint
+  if (
+    (req.path === "/api/users/sync" && req.method === "POST") ||
+    (req.path === "/api/users/me" && req.method === "GET")
+  ) {
     // If it is, skip the Arcjet middleware
     return next();
   }

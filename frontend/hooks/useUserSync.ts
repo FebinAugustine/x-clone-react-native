@@ -1,25 +1,31 @@
-import { useEffect } from "react";
+// hooks/useUserSync.ts (Updated)
+
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "@clerk/clerk-expo";
 import { useApiClient, userApi } from "../utils/api";
 
-export const useUserSync = () => {
-  const { isSignedIn } = useAuth();
+export const useUserSync = (isEnabled: boolean) => {
   const api = useApiClient();
+  const [isSynced, setIsSynced] = useState(false);
 
   const syncUserMutation = useMutation({
     mutationFn: () => userApi.syncUser(api),
-    onSuccess: (response: any) => console.log("User synced successfully:", response.data.user),
-    onError: (error) => console.error("User sync failed:", error),
+    onSuccess: () => {
+      console.log("User synced successfully.");
+      setIsSynced(true);
+    },
+    onError: (error) => {
+      console.error("User sync failed:", error);
+      setIsSynced(false);
+    },
   });
 
-  // auto-sync user when signed in
   useEffect(() => {
-    // if user is signed in and user is not synced yet, sync user
-    if (isSignedIn && !syncUserMutation.data) {
+    if (isEnabled && !isSynced) {
       syncUserMutation.mutate();
     }
-  }, [isSignedIn]);
+  }, [isEnabled, isSynced]);
 
-  return null;
+  return { isSynced };
 };
