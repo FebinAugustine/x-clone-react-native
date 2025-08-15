@@ -66,13 +66,49 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="index"
         options={{
-          title: "",
+          title: "Home",
           tabBarIcon: ({ color, size }) => (
             <Feather name="home" size={size} color={color} />
           ),
         }}
       />
       {/* ... other Tabs.Screens */}
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="user" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Search",
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="search" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          title: "Notifications",
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="bell" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="messages"
+        options={{
+          title: "Messages",
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="message-circle" size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 };
