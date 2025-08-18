@@ -14,14 +14,14 @@ export const aj = arcjet({
     shield({ mode: "LIVE" }),
 
     // bot detection - block all bots except search engines
-    detectBot({
-      mode: "LIVE",
-      allow: [
-        "CATEGORY:SEARCH_ENGINE",
-        // allow legitimate search engine bots
-        // see full list at https://arcjet.com/bot-list
-      ],
-    }),
+    // detectBot({
+    //   mode: "LIVE",
+    //   allow: [
+    //     "CATEGORY:SEARCH_ENGINE",
+    //     // allow legitimate search engine bots
+    //     // see full list at https://arcjet.com/bot-list
+    //   ],
+    // }),
 
     // rate limiting with token bucket algorithm
     tokenBucket({
